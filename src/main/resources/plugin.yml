@@ -1,0 +1,14 @@
+name: Plugin
+version: '${project.version}'
+main: com.antz.plugin.Main
+api-version: 1.18
+prefix: Antz
+load: STARTUP
+authors: [ ZeEpic ]
+description: Antz.minehut.gg
+website: github.com/ZeEpic
+commands:
+  regenerate:
+    permission: antz.chunk.regenerate
+    description: Regenerate the chunk
+    usage: /<command> <x> <z>
