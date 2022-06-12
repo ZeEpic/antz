@@ -1,5 +1,7 @@
 package com.antz.plugin
 
+import com.antz.plugin.commands.ResetRoleCommand
+import com.antz.plugin.commands.RolesCommand
 import com.antz.plugin.listener.*
 import com.antz.plugin.task.ChunkGenerateTask
 import com.antz.plugin.world.RegenerateCommand
@@ -28,8 +30,11 @@ class Main : JavaPlugin() {
         // Plugin startup logic
 
         getCommand("regenerate")?.setExecutor(RegenerateCommand())
+        getCommand("roles")?.setExecutor(RolesCommand())
+        getCommand("resetrole")?.setExecutor(ResetRoleCommand())
 
         val manager = server.pluginManager
+        manager.registerEvents(InventoryListener(), this)
         manager.registerEvents(WorldGenerationListener(), this)
         manager.registerEvents(CarpenterListener(), this)
         manager.registerEvents(ClimberListener(), this)

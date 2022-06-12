@@ -12,3 +12,11 @@ commands:
     permission: antz.chunk.regenerate
     description: Regenerate the chunk
     usage: /<command> <x> <z>
+  roles:
+    permission: antz.role.roles
+    description: Select an ant role
+    usage: /roles
+  resetrole:
+    permission: antz.role.reset
+    description: Reset current ant role
+    usage: /resetrole
