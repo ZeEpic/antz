@@ -5,6 +5,7 @@ import com.antz.plugin.RoleProgress
 import com.antz.plugin.antRoleProgress
 import com.antz.plugin.role
 import com.antz.plugin.util.formatAll
+import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
@@ -30,10 +31,10 @@ class RoleGui : CustomInventoryHolder(27, "Antz Roles", isClickable = false) {
     }
 
     private fun applyListeners() {
-        for(i in 10..15) setSlotListener(i) { e ->
-            val player = e.whoClicked as Player
-            val itemMeta = e.currentItem?.itemMeta
-            val customAttributeModifier = (itemMeta?.attributeModifiers?.get(Attribute.GENERIC_LUCK) as List<AttributeModifier>)[0]
+        for(i in 10..15) setSlotListener(i) {
+            val player = it.whoClicked as Player
+            val itemMeta = it.currentItem?.itemMeta
+            val customAttributeModifier = (itemMeta?.attributeModifiers?.get(Attribute.GENERIC_LUCK)?.toList())?.get(0) ?: return@setSlotListener
             val currentRole = player.role
             val selectedRole = AntRole.valueOf(customAttributeModifier.name)
 
@@ -44,7 +45,7 @@ class RoleGui : CustomInventoryHolder(27, "Antz Roles", isClickable = false) {
 
             player.role = selectedRole
             player.antRoleProgress = RoleProgress(selectedRole, player, 0)
-            player.sendMessage("You have selected the ${selectedRole.toString().lowercase().capitalize()} Ant role.")
+            player.sendMessage("You have selected the ${selectedRole.name.lowercase().replaceFirstChar { char -> char.uppercase() }} ant role.")
         }
     }
 
@@ -65,8 +66,8 @@ private object GuiItems {
         val guiItem = ItemStack(material)
 
         val meta = guiItem.itemMeta
-        meta.setDisplayName(name.formatAll())
-        meta.lore = lore.formatAll().split("|")
+        meta.displayName(Component.text(name.formatAll()))
+        meta.lore(lore.formatAll().split("|").map { Component.text(it) })
         meta.addAttributeModifier(Attribute.GENERIC_LUCK, AttributeModifier(role.toString(), 0.0, AttributeModifier.Operation.ADD_NUMBER))
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
         guiItem.itemMeta = meta

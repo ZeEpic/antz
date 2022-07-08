@@ -17,9 +17,9 @@ private fun ChunkSnapshot.fillHeight(x: Int, z: Int, chunk: Chunk, barriers: Boo
         }
     } else {
         for (y in -64..317) {
-            val block = chunk.getBlock(x, y, z);
-            block.blockData = this.getBlockData(x, y, z);
-            block.biome = this.getBiome(x, y, z);
+            val block = chunk.getBlock(x, y, z)
+            block.blockData = this.getBlockData(x, y, z)
+            block.biome = this.getBiome(x, y, z)
         }
     }
     chunk.getBlock(x, 318, z).type = Material.BARRIER
@@ -48,7 +48,7 @@ class RegenerateCommand : CommandExecutor {
         val playerChunk = player?.location?.chunk
         val x = chunkX.toIntOrNull() ?: if (chunkX == "~") playerChunk?.x else return false
         val z = chunkZ.toIntOrNull() ?: if (chunkZ == "~") playerChunk?.z else return false
-        if (x == null || z == null) return false
+        if (x == null || z == null) return false // "~ ~" has no meaning when used in console
         val chunk = Main.world.cloneWorld.getChunkAt(x, z)
         val chunkDestination = Main.world.getChunkAt(x, z)
         val snapshot = chunk.getChunkSnapshot(true, true, true)
